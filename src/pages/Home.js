@@ -78,7 +78,7 @@ const Home = () => {
     <div className="home">
       <div className="hero-section">
         <div className="hero-content">
-          <h1>Welcome to ShopHub</h1>
+          <h1>Welcome to MN-SHOP</h1>
           <p>Discover amazing products at unbeatable prices</p>
         </div>
       </div>

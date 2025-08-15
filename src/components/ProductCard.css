@@ -183,7 +183,7 @@
 .color-btn .check {
   color: white;
   font-size: 12px;
-  font-weight: bold;
+  font-weight: 500;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
@@ -216,6 +216,23 @@
   border-color: #667eea;
   background: #667eea;
   color: white;
+}
+
+.one-size-message {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.one-size-text {
+  padding: 0.5rem 1rem;
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+  border-radius: 6px;
+  color: #6c757d;
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-style: italic;
 }
 
 .add-to-cart-btn {
@@ -281,6 +298,11 @@
   .placeholder-text {
     font-size: 1rem;
   }
+
+  .one-size-text {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -321,5 +343,10 @@
 
   .placeholder-subtext {
     font-size: 0.8rem;
+  }
+
+  .one-size-text {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
   }
 }

@@ -148,10 +148,10 @@ const ProductCard = ({ product }) => {
           </div>
         )}
 
-        {/* Size Selection */}
-        {product.sizes && product.sizes.length > 0 && (
-          <div className="product-options">
-            <label className="option-label">Size:</label>
+        {/* Size Selection or One Size Message */}
+        <div className="product-options">
+          <label className="option-label">Size:</label>
+          {product.sizes && product.sizes.length > 0 ? (
             <div className="size-options">
               {product.sizes.map((size) => (
                 <button
@@ -163,8 +163,12 @@ const ProductCard = ({ product }) => {
                 </button>
               ))}
             </div>
-          </div>
-        )}
+          ) : (
+            <div className="one-size-message">
+              <span className="one-size-text">One size available</span>
+            </div>
+          )}
+        </div>
 
         <button 
           className="add-to-cart-btn"

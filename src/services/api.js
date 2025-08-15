@@ -60,7 +60,7 @@ export const homeAPI = {
   getHomeData: async () => {
     try {
       console.log('🏠 Fetching home data...');
-      const response = await api.get('/ecom/v1/home/');
+      const response = await api.get('/ecom/v1/home');
       console.log('🏠 Home data received:', {
         productCount: Array.isArray(response.data) ? response.data.length : 'Not an array',
         data: response.data
@@ -68,6 +68,21 @@ export const homeAPI = {
       return response.data;
     } catch (error) {
       console.error('❌ Error fetching home data:', error);
+      throw error;
+    }
+  },
+};
+
+export const aboutAPI = {
+  // Get about page data including description and contact info
+  getAboutData: async () => {
+    try {
+      console.log('ℹ️ Fetching about page data...');
+      const response = await api.get('/ecom/v1/about');
+      console.log('ℹ️ About data received:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('❌ Error fetching about data:', error);
       throw error;
     }
   },

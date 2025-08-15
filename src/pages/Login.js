@@ -108,7 +108,7 @@ const Login = () => {
       <div className="login-container">
         <div className="login-card">
           <div className="login-header">
-            <h2>Welcome Back</h2>
+            <h2>Welcome to MN-SHOP</h2>
             <p>Sign in to your account</p>
           </div>
 

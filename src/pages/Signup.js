@@ -117,8 +117,8 @@ const Signup = () => {
         <div className="signup-container">
           <div className="signup-card success">
             <div className="success-icon">✓</div>
-            <h2>Account Created Successfully!</h2>
-            <p>Welcome to ShopHub! You will be redirected to the home page shortly.</p>
+            <h2>Welcome to MN-SHOP!</h2>
+            <p>Your account has been created successfully! You will be redirected to the home page shortly.</p>
             <Link to="/" className="home-link">
               Go to Home
             </Link>
@@ -133,8 +133,8 @@ const Signup = () => {
       <div className="signup-container">
         <div className="signup-card">
           <div className="signup-header">
-            <h2>Create Account</h2>
-            <p>Join ShopHub and start shopping</p>
+            <h2>Join MN-SHOP</h2>
+            <p>Create your account and start shopping</p>
           </div>
 
           <form onSubmit={handleSubmit} className="signup-form">
