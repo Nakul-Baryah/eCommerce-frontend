@@ -10,35 +10,51 @@ const ProductCard = ({ product }) => {
   const colors = product.images ? Object.keys(product.images) : [];
   const [selectedColor, setSelectedColor] = useState(colors[0] || '');
   const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] || '');
-  const [isFavorite, setIsFavorite] = useState(false); // Default to false since API doesn't provide this
+  const [isFavorite, setIsFavorite] = useState(false);
   const [loading, setLoading] = useState(false);
   const [cartLoading, setCartLoading] = useState(false);
 
+  console.log('🛍️ ProductCard rendered:', {
+    productId: product.productId,
+    productName: product.productName,
+    colors,
+    selectedColor,
+    sizes: product.sizes,
+    selectedSize,
+    hasUser: !!user
+  });
+
   const handleColorChange = (color) => {
+    console.log('🎨 Color changed:', { from: selectedColor, to: color, productId: product.productId });
     setSelectedColor(color);
   };
 
   const handleSizeChange = (size) => {
+    console.log('📏 Size changed:', { from: selectedSize, to: size, productId: product.productId });
     setSelectedSize(size);
   };
 
   const handleFavoriteToggle = async () => {
     if (!user) {
+      console.log('⚠️ User not logged in, cannot add to favorites');
       alert('Please login to add favorites');
       return;
     }
 
+    console.log('❤️ Toggling favorite:', { productId: product.productId, currentState: isFavorite });
     setLoading(true);
     try {
       if (isFavorite) {
         await productAPI.removeFromFavorites(product.productId);
         setIsFavorite(false);
+        console.log('✅ Removed from favorites successfully');
       } else {
         await productAPI.addToFavorites(product.productId);
         setIsFavorite(true);
+        console.log('✅ Added to favorites successfully');
       }
     } catch (error) {
-      console.error('Error toggling favorite:', error);
+      console.error('❌ Error toggling favorite:', error);
       alert('Failed to update favorite status');
     } finally {
       setLoading(false);
@@ -47,51 +63,54 @@ const ProductCard = ({ product }) => {
 
   const handleAddToCart = async () => {
     if (!user) {
+      console.log('⚠️ User not logged in, cannot add to cart');
       alert('Please login to add items to cart');
       return;
     }
 
     if (!selectedColor) {
+      console.log('⚠️ No color selected');
       alert('Please select a color');
       return;
     }
 
     if (product.sizes && product.sizes.length > 0 && !selectedSize) {
+      console.log('⚠️ No size selected for product with sizes');
       alert('Please select a size');
       return;
     }
 
+    console.log('🛒 Adding to cart:', {
+      productId: product.productId,
+      productName: product.productName,
+      size: selectedSize,
+      color: selectedColor,
+      quantity: 1
+    });
+
     setCartLoading(true);
     try {
       await productAPI.addToCart(product.productId, selectedSize, selectedColor, 1);
+      console.log('✅ Added to cart successfully');
       alert('Added to cart successfully!');
     } catch (error) {
-      console.error('Error adding to cart:', error);
+      console.error('❌ Error adding to cart:', error);
       alert('Failed to add to cart');
     } finally {
       setCartLoading(false);
     }
   };
 
-  const getCurrentImage = () => {
-    if (product.images && selectedColor) {
-      return product.images[selectedColor];
-    }
-    // Fallback to first image if available
-    return product.images ? Object.values(product.images)[0] : '';
-  };
-
   return (
     <div className="product-card">
       <div className="product-image-container">
-        <img 
-          src={getCurrentImage()} 
-          alt={product.productName}
-          className="product-image"
-          onError={(e) => {
-            e.target.src = 'https://via.placeholder.com/300x300?text=Product+Image';
-          }}
-        />
+        <div className="product-image-placeholder">
+          <div className="placeholder-content">
+            <span className="placeholder-icon">📷</span>
+            <p className="placeholder-text">Product Image</p>
+            <p className="placeholder-subtext">Color: {selectedColor || 'Select a color'}</p>
+          </div>
+        </div>
         <button 
           className={`favorite-btn ${isFavorite ? 'favorited' : ''}`}
           onClick={handleFavoriteToggle}

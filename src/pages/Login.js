@@ -16,8 +16,11 @@ const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  console.log('🔐 Login component rendered');
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log('🔐 Form field changed:', { field: name, value: value.substring(0, 3) + '***' });
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -33,6 +36,7 @@ const Login = () => {
   };
 
   const validateForm = () => {
+    console.log('🔐 Validating login form');
     const newErrors = {};
 
     if (!formData.email) {
@@ -47,37 +51,45 @@ const Login = () => {
       newErrors.password = 'Password must be at least 6 characters';
     }
 
+    console.log('🔐 Validation errors:', newErrors);
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('🔐 Login form submitted');
     
     if (!validateForm()) {
+      console.log('🔐 Form validation failed');
       return;
     }
 
     setLoading(true);
     setApiError('');
+    console.log('🔐 Attempting login for:', formData.email);
 
     try {
       const response = await authAPI.login(formData.email, formData.password);
       
       if (response.success) {
+        console.log('🔐 Login successful, storing token and user data');
         // Store token if provided
         if (response.token) {
           localStorage.setItem('token', response.token);
+          console.log('🔐 Token stored in localStorage');
         }
         
         // Login user with response data
         login(response.user || { email: formData.email });
+        console.log('🔐 Navigating to home page');
         navigate('/');
       } else {
+        console.log('🔐 Login failed:', response.message);
         setApiError(response.message || 'Login failed. Please try again.');
       }
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('❌ Login error:', error);
       
       if (error.response?.status === 404) {
         setApiError('Email not found. Please create a new account.');
